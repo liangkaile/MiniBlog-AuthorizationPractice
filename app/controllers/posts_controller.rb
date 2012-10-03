@@ -1,6 +1,8 @@
 class PostsController < ApplicationController
 
-    before_filter :authenticate, :except => [:index, :show]
+#    before_filter :authenticate, :except => [:index, :show]
+    before_filter :signed_in_user, only: [:create, :destroy]
+    before_filter :correct_user, only: :destroy
 
   # GET /posts
   # GET /posts.json
@@ -43,18 +45,18 @@ class PostsController < ApplicationController
   # POST /posts
   # POST /posts.json
   def create
-    @post = Post.new(params[:post])
+    @post =current_user.posts.new(params[:post])
 
-    respond_to do |format|
       if @post.save
-        format.html { redirect_to @post, notice: 'Post was successfully created.' }
-        format.json { render json: @post, status: :created, location: @post }
+          flash[:success] = "Post created!"
+          redirect_to root_url
       else
+          @feed_items = []
+          render 'static_pages/home'
         format.html { render action: "new" }
         format.json { render json: @post.errors, status: :unprocessable_entity }
       end
     end
-  end
 
   # PUT /posts/1
   # PUT /posts/1.json
@@ -91,6 +93,10 @@ def authenticate
     authenticate_or_request_with_http_basic do |name, password|
         name =="admin" && password =="secret"
     end
+end
+
+def correct_user
+    @micropost = current_user.posts.find_by_id(params[:id])
 end
 
 end 

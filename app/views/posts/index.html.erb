@@ -1,25 +1,36 @@
 <h1>Listing posts</h1>
 
 <table>
-  <tr>
-    <th>Title</th>
-    <th>Body</th>
-    <th></th>
-    <th></th>
-    <th></th>
-  </tr>
+    <tr>
+        <th>Title</th>
+        <th>Body</th>
+        <th></th>
+        <th></th>
+        <th></th>
+    </tr>
 
-<% @posts.each do |post| %>
-  <tr>
-    <td><%= post.title %></td>
-    <td><%= post.body %></td>
-    <td><%= link_to 'Show', post %></td>
-    <td><%= link_to 'Edit', edit_post_path(post) %></td>
-    <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
-  </tr>
-<% end %>
+    <% @posts.each do |post| %>
+        <tr>
+            <td><%= post.title %></td>
+            <td><%= post.body %></td>
+            <td><%= post.user.name%></td>
+            <td><%= link_to 'Show', post %></td>
+            <% if current_user?(post.user) %>
+                <td><%= link_to 'Edit', edit_post_path(post) %></td>
+            <% end %>
+
+            <% if current_user?(post.user) %>
+                <td><%= link_to 'Destroy', post, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+            <% end %>
+
+        </tr>
+    <% end %>
 </table>
 
 <br />
 
-<%= link_to 'New Post', new_post_path %>
+<% if signed_in? %>
+    <%= link_to 'New Post', new_post_path %>
+<% else%>
+    <h1> Welcome to this app </h1>
+<% end %>

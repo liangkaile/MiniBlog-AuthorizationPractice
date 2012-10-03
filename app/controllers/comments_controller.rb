@@ -41,7 +41,10 @@ class CommentsController < ApplicationController
   # POST /comments.json
   def create
     @post = Post.find(params[:post_id])
-    @comment = @post.comments.create!(params[:comment])
+    #@comment = @post.comments.create!(params[:comment])
+    @comment = Comment.new(params[:comment])
+    @comment.post = @post
+    @comment.user = current_user
 
     respond_to do |format|
       if @comment.save
