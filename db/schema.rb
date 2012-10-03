@@ -18,8 +18,6 @@ ActiveRecord::Schema.define(:version => 20121003210325) do
     t.text     "body"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id"
-    t.string   "author"
   end
 
   create_table "posts", :force => true do |t|
@@ -27,7 +25,6 @@ ActiveRecord::Schema.define(:version => 20121003210325) do
     t.text     "body"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
-    t.integer  "user_id"
   end
 
   create_table "users", :force => true do |t|
