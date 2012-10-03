@@ -4,6 +4,6 @@
     </strong><br />
     <%= h(comment.body) %>
     By:
-    <%= h(User.find(comment.user_id).name) %>
+    <%= h(comment.user.name) %>
     </p>
 <% end %>
